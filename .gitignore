@@ -4,7 +4,7 @@
 *.dll
 *.so
 *.dylib
-
+# yarn create vite polygon_demo --template react-ts
 # Test binary, built with `go test -c`
 *.test
 
@@ -14,5 +14,27 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 .idea
+.deps
 artifacts
 artifacts/*
+
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

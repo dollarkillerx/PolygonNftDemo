@@ -6,6 +6,7 @@ Polygon NFT Demo
 
 - Ganache EVM虚拟机
 - Remix IDE
+- Blockscout  本地测试链浏览器 
 
 ### 链
 
@@ -186,7 +187,7 @@ FQA:
 
 - 前端获取 MetaMask 钱包信息
   
-  
+  - 阅读代码 `polygon_demo`
 
 - 获取用户持有那些NFT    （这里以polygon链上的数据为例）
   
@@ -203,3 +204,17 @@ FQA:
 - NFT 上架 
   
   - https://docs.opensea.io/docs/metadata-standards     修改uri返回json 适配opensea metadata的标准
+
+- NFT 派奖
+  
+  - 调用ERC721 `safeMint` 函数
+  
+  - 玩法的策划是非常重要的， 可以参考下 唯一艺术　と　THETAN ARENA　的发展史        
+    
+    - 合成      三个NFT 合成一个 NFT
+    
+    - VIP权益     经验加成
+    
+    - 饥饿营销   每周出少量空头    然后4~5倍的价格回收   
+    
+    - NFT本来不值钱， 但是认为他能赚钱，暴力的人多了。它就值钱了。
