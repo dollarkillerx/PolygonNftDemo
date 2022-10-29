@@ -71,8 +71,6 @@ function Home() {
                     setAccount(accounts[0])
                     setProvider(providerWeb3)
             })
-
-
         }
 
         connection()
