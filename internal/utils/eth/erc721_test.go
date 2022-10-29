@@ -1,4 +1,4 @@
-package erc721
+package eth
 
 import (
 	"context"
