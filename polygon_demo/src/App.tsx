@@ -1,9 +1,29 @@
 import { useState, useEffect } from 'react'
-import Robot from "./components/Robot"
 import axios from "axios";
+import {Button, createTheme, ThemeProvider} from '@mui/material'
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+    Link,
+} from "react-router-dom";
+import {HomePage} from "./pages/home";
 import styles from './App.module.css'
 
 function App() {
+    const theme = createTheme({
+        palette: {
+            mode: "light",
+            primary: {
+                main: "#0fa6a2",
+            },
+            secondary: { main: "#8eb8e7" },
+            background: {
+                paper: "",
+            },
+        },
+        shape: { borderRadius: 4 },
+    });
     const [count,setCount] = useState<number>(0)
     const [robotGallery, setRobotGallery] = useState<any>([])
     const [loading, setLoading] = useState<boolean>(true);
@@ -22,23 +42,20 @@ function App() {
     },[]) // 当为空时 仅当挂载UI时加载
 
   return (
-    <div className={styles.app}>
-      <span>count: {count}</span>
-      <button onClick={()=>{
-       setCount(count+1)
-      }}>Click</button>
+      <ThemeProvider theme={theme}>
+          {/*<ul className={styles.list}>*/}
+          {/*    /!*<li><Link to="/">Home</Link></li>*!/*/}
+          {/*    <li><Button variant="contained">空投</Button></li>*/}
+          {/*</ul>*/}
 
-        {
-            loading ?
-                (<div>Loding</div>) : (
-                    <div className={styles.robotList}>
-                        {robotGallery.map((r)=>(
-                            <Robot id={r.id} email={r.email} name={r.name}></Robot>
-                        ))}
-                    </div>
-                )
-        }
-    </div>
+          <div className="App">
+              <BrowserRouter>
+                  <Routes>
+                      <Route path="/" element={<HomePage/>}/>
+                  </Routes>
+              </BrowserRouter>
+          </div>
+      </ThemeProvider>
   )
 }
 
