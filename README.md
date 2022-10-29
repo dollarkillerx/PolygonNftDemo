@@ -199,7 +199,7 @@ FQA:
 
 - 获取某个NFT 目前所载的钱包地址 
   
-  - 调用ERC721 `ownerOf` 函数
+  - 调用ERC721 `ownerOf` 
 
 - NFT 上架 
   
@@ -207,7 +207,7 @@ FQA:
 
 - NFT 派奖
   
-  - 调用ERC721 `safeMint` 函数
+  - 调用ERC721 `safeMint` 
   
   - 玩法的策划是非常重要的， 可以参考下 唯一艺术　と　THETAN ARENA　的发展史        
     
