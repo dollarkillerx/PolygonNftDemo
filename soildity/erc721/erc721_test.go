@@ -21,7 +21,6 @@ func TestErc721(t *testing.T) {
 		log.Fatalln(err)
 	}
 
-	// 合约地址
 	constant := common.HexToAddress("0xa10A5e7E2b2CC6fcaF4e74B00a163B10ee060eBf")
 	erc721, err := NewErc721(constant, dial)
 	if err != nil {
@@ -42,14 +41,12 @@ func TestErc721V2(t *testing.T) {
 		log.Fatalln(err)
 	}
 
-	// 合约地址
 	constant := common.HexToAddress("0xa10A5e7E2b2CC6fcaF4e74B00a163B10ee060eBf")
 	erc721, err := NewErc721(constant, dial)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	// 加载您的私钥
 	token := ""
 
 	privateKey, err := crypto.HexToECDSA(token)
@@ -63,19 +60,16 @@ func TestErc721V2(t *testing.T) {
 	}
 
 	fromAddress := crypto.PubkeyToAddress(*publicKeyECDSA)
-	// 读取我们应该用于帐户交易的随机数
 	nonce, err := dial.PendingNonceAt(context.Background(), fromAddress)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// 獲取gas費用
 	gasPrice, err := dial.SuggestGasPrice(context.Background())
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// 獲取鏈id
 	chainID, err := dial.NetworkID(context.Background())
 	if err != nil {
 		log.Fatalln(err)
