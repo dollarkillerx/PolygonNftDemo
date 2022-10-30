@@ -4,16 +4,24 @@ import (
 	"github.com/dollarkillerx/PolygonNftDemo/internal/conf"
 	"github.com/dollarkillerx/PolygonNftDemo/internal/middleware"
 	"github.com/gin-gonic/gin"
+
+	"sync"
 )
 
 type Server struct {
 	app *gin.Engine
+
+	mu    sync.Mutex
+	cache map[string]string // token: address
 }
 
 func NewServer() *Server {
 	ser := &Server{
-		app: gin.New(),
+		app:   gin.New(),
+		cache: map[string]string{},
 	}
+
+	go ser.alchemy()
 
 	return ser
 }
