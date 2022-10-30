@@ -1,8 +1,8 @@
 version: "3.3"
 services:
   poygon:
-    image: poygon:0.0.1
+    image: polygon:0.0.1
     container_name: poygon
     restart: always
     ports:
-      - 8084:8084
+      - 8881:8881

@@ -1,14 +1,14 @@
 #!/bin/sh
 
-source_path=./cmd/main
+source_path=./cmd/
 go_file=main.go
 image_name=polygon
-build_output=polygon
+build_output=main
 version=0.0.1
 
 CGO_ENABLED=0 GOOS="linux" GOARCH="amd64" go build -o $source_path/$build_output $source_path/$go_file
 
-upx $source_path/$build_output
+# upx $source_path/$build_output
 
 docker rmi -f $image_name:$version
 docker build -f $source_path/Dockerfile -t $image_name:$version  .
