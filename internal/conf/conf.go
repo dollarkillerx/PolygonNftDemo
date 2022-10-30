@@ -9,7 +9,8 @@ import (
 type conf struct {
 	ListenAddr string `json:"listen_addr"`
 
-	Token string `json:"token"`
+	JWTToken string `json:"jwt_token"`
+	Token    string `json:"token"`
 }
 
 var CONF *conf
@@ -21,7 +22,7 @@ func init() {
 func initConf() {
 	var cf conf
 
-	file, err := ioutil.ReadFile("config/config.json")
+	file, err := ioutil.ReadFile("configs/config.json")
 	if err != nil {
 		marshal, _ := json.MarshalIndent(cf, " ", "  ")
 		if err2 := ioutil.WriteFile("config.json", marshal, 00666); err2 != nil {

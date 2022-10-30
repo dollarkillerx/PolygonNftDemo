@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react"
 import styles from './HomePage.module.css'
 import Typography from '@mui/material/Typography';
-import {Tabs, Tab, Box, Button} from  '@mui/material';
-import {ethers} from "ethers";
+import axios from "axios"
+import {Tabs, Tab, Box, Button, Alert} from '@mui/material'
+import {ethers} from "ethers"
 
 interface TabPanelProps {
     index: number;
@@ -47,6 +48,7 @@ function Home() {
     const [account, setAccount] = useState();
     const [balance, setBalance] = useState();
     const [provider, setProvider] = useState();
+    const [nfts, setNfts] = useState<any>([]);
 
     // 链接钱包
     function connectOnClick() {
@@ -70,6 +72,35 @@ function Home() {
                     // 注意 生产环境需要判断错误
                     setAccount(accounts[0])
                     setProvider(providerWeb3)
+
+                // login sign
+                const message = "Login to the website"
+                ethereum.request({
+                    method: "personal_sign",
+                    params: [
+                        message,
+                        accounts[0]
+                    ]
+                }).then((signature) => {
+                    console.log(signature)
+                    console.log(message)
+                    console.log(accounts[0])
+                })
+
+
+                axios.get(`/api/v1/address/${accounts[0]}/nfts`).
+                then(data=>{
+                    console.log(data)
+
+                        if (data.data.code != "0") {
+                            alert("请求失败")
+                            return
+                        }
+                        setNfts(data.data.data)
+                    console.log(data.data.data)
+                }).catch(err=>{
+                    alert("错误: "+ err)
+                })
             })
         }
 
@@ -109,19 +140,110 @@ function Home() {
                     <Button variant="contained" onClick={connectOnClick}>Login</Button>
                 ): (<span>已经链接钱包: {account}  余额: {balance}</span>)
             }
+
+            <hr/>
+
+            {
+                nfts.length == 0 ? (
+                    <span>当前账户 占无https://polygonscan.com/token/0xa10a5e7e2b2cc6fcaf4e74b00a163b10ee060ebf  NFT</span>
+                ): (
+
+                    <div>
+                        <span>https://polygonscan.com/token/0xa10a5e7e2b2cc6fcaf4e74b00a163b10ee060ebf  NFT</span>
+
+                        {nfts.map((r)=>(
+                            <li>NTF ID:  {r} </li>
+                        ))}
+
+                    </div>
+
+
+                )
+            }
+
         </div>
     )
 }
 
 function Airdrop() {
+    // 副作用函数 初始化页面时 加载
+    useEffect(()=>{
+        if (!window.ethereum) {
+            alert("请安装Metamask钱包")
+            return
+        }
+    },[])
+
+    function getAirdrop() {
+        if (!window.ethereum) {
+            alert("请安装Metamask钱包")
+            return
+        }
+
+        const getAir = async() => {
+            const providerWeb3 = new ethers.providers.Web3Provider(window.ethereum);
+            providerWeb3.send("eth_requestAccounts", []).
+            then((accounts) => {
+                if (accounts == undefined || accounts.length == 0) {
+                    alert("请授权账户")
+                    return
+                }
+
+                // 注意 生产环境需要判断错误
+                let account = accounts[0]
+                axios.post("/api/v1/airdrop", {
+                    "address": account
+                }).then(data => {
+                    console.log(data)
+                    if (data.data.code == "0") {
+                        alert("空投领取成功 请前往opensea 查看空投")
+                    }
+                }).catch((err)=> {
+                    alert("错误: " + err)
+                })
+
+            })
+        }
+
+        getAir()
+    }
+
     return (
-        <div>This is Airdrop</div>
+       <div>
+           <div>查看空投信息，前往opensea 隐藏的NFT</div>
+           <Button variant="contained" onClick={getAirdrop}>领取空投</Button>
+       </div>
     )
 }
 
 function Other() {
+    const [nfts, setNfts] = useState<any>([]);
+
+    function otherNet() {
+        axios.get("/api/v1/nft_holder").then(data => {
+            console.log(data)
+            if (data.data.code != "0") {
+                alert("获取失败")
+                return
+            }
+            setNfts(data.data.data)
+        }).catch((err)=> {
+            alert("错误: " + err)
+        })
+    }
+
+    useEffect(()=>{
+        otherNet()
+    },[])
+
     return (
-        <div>This is Other</div>
+        <div>
+            <div>NFT 持有者 </div>
+
+            {nfts.map((r)=>(
+                <li>NTF ID:  {r.key} ,   持有者: {r.value}</li>
+            ))}
+        </div>
     )
 }
 

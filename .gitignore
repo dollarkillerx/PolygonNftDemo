@@ -39,4 +39,4 @@ dist-ssr
 *.sln
 *.sw?
 
-config/
+configs/

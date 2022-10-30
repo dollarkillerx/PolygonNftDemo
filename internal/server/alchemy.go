@@ -69,7 +69,7 @@ func (s *Server) alchemyInternal() {
 	var alchemyResp AlchemyResp
 	err := urllib.
 		Post("https://polygon-mainnet.g.alchemy.com/v2/g9_dtmuJeERcETxHWLr2fBqgdz9qcie4").
-		SetJsonObject(input).FromJsonByCode(&alchemyResp, 200)
+		SetJsonObject(input).SetTimeout(time.Second*10).FromJsonByCode(&alchemyResp, 200)
 	if err != nil {
 		log.Println(err)
 		return

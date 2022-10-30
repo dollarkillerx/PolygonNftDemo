@@ -50,5 +50,18 @@ func (s *Server) nftHoldingAccount(ctx *gin.Context) {
 
 func (s *Server) nftHolder(ctx *gin.Context) {
 	cache := s.getCache()
-	response.Return(ctx, cache)
+	type rp struct {
+		Key   string `json:"key"`
+		Value string `json:"value"`
+	}
+
+	var resp []rp
+	for k, v := range cache {
+		resp = append(resp, rp{
+			Key:   k,
+			Value: v,
+		})
+	}
+
+	response.Return(ctx, resp)
 }
